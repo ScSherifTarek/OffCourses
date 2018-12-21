@@ -1,0 +1,159 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2018-12-21 04:50
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: dell
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+#ALTER SCHEMA `offcourcesdb`  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci ;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`Academy` (
+  `Academy_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Academy_mail` VARCHAR(45) NOT NULL,
+  `Academy_password` VARCHAR(45) NULL DEFAULT NULL,
+  `Academy_name` VARCHAR(45) NULL DEFAULT NULL COMMENT 'Holds the name of the company or co-workspace.',
+  `Academy_address` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Holds the address of the company or co-workspace.',
+  `Academy_phoneNo` VARCHAR(45) NULL DEFAULT NULL COMMENT 'Holds the phone number of the company or co-workspace.',
+  `Academy_date_of_incorporation` DATE NULL DEFAULT NULL COMMENT 'Holds the date of the company or co-workspace was started work.',
+  `Academy_document_images` VARCHAR(45) NULL DEFAULT NULL COMMENT 'Holds the name of the company or co-workspace.',
+  `Academy_fields` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`Academy_id`),
+  INDEX `name` (`Academy_name` ASC) ,
+  INDEX `PhoneNo` (`Academy_phoneNo` ASC) ,
+  UNIQUE INDEX `Academy_mail_UNIQUE` (`Academy_mail` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`Instructor` (
+  `Instructorr_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Instructor_mail` VARCHAR(45) NOT NULL,
+  `Instructor_first_name` VARCHAR(45) NULL DEFAULT NULL,
+  `Instructor_last_name` VARCHAR(45) NULL DEFAULT NULL,
+  `Instructor_password` VARCHAR(45) NULL DEFAULT NULL,
+  `Instructor_DOB` DATE NULL DEFAULT NULL,
+  `Instructor_PhoneNo` VARCHAR(45) NULL DEFAULT NULL,
+  `Instructor_Field` VARCHAR(45) NULL DEFAULT NULL COMMENT 'One instructor may have many field.',
+  `Instructor_Courses` VARCHAR(45) NULL DEFAULT NULL,
+  `Instructor_Previous_Experience` VARCHAR(200) NULL DEFAULT NULL,
+  `Instructor_sex` VARCHAR(1) NULL DEFAULT NULL COMMENT 'Holds the gender of the Instructor(male or female).\nM = Male\nF = Female',
+  `Instructor_rate` DOUBLE NULL DEFAULT NULL,
+  `Instructor_Address` VARCHAR(100) NULL DEFAULT NULL,
+  `Academy_Academy_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Instructorr_id`, `Academy_Academy_id`),
+  INDEX `fName` (`Instructor_first_name` ASC) ,
+  INDEX `lName` (`Instructor_last_name` ASC) ,
+  INDEX `Email` (`Instructor_mail` ASC) ,
+  INDEX `PhoneNo` (`Instructor_PhoneNo` ASC) ,
+  UNIQUE INDEX `Instructor_mail_UNIQUE` (`Instructor_mail` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`Company_has_Users` (
+  `Company_has_instructors_id` INT(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`Company_has_instructors_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`Course` (
+  `Course_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Course_name` VARCHAR(45) NULL DEFAULT NULL,
+  `Course_fields` VARCHAR(100) NULL DEFAULT NULL,
+  `Course_instructors` VARCHAR(45) NULL DEFAULT NULL,
+  `Academy_Company_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Course_id`, `Academy_Company_id`),
+  INDEX `corseName` (`Course_name` ASC) ,
+  INDEX `courseField` (`Course_fields` ASC) ,
+  INDEX `courseInstructor` (`Course_instructors` ASC) ,
+  INDEX `fk_Course_Academy1_idx` (`Academy_Company_id` ASC) ,
+  CONSTRAINT `fk_Course_Academy1`
+    FOREIGN KEY (`Academy_Company_id`)
+    REFERENCES `offcourcesdb`.`Academy` (`Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`Image` (
+  `Images_id` INT(11) NOT NULL,
+  `Image_name` VARCHAR(45) NULL DEFAULT NULL,
+  `Image_url` VARCHAR(200) NULL DEFAULT NULL,
+  `Course_Academy_Company_id` INT(11) NULL DEFAULT NULL,
+  `Academy_Academy_id` INT(11) NULL DEFAULT NULL,
+  `Instructor_Instructorr_id` INT(11) NULL DEFAULT NULL,
+  `Instructor_Academy_Academy_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`Images_id`),
+  INDEX `Image_name` (`Image_name` ASC) ,
+  UNIQUE INDEX `Academy_Academy_id_UNIQUE` (`Academy_Academy_id` ASC) ,
+  INDEX `fk_Image_Course1_idx` (`Course_Academy_Company_id` ASC) ,
+  UNIQUE INDEX `Course_Academy_Company_id_UNIQUE` (`Course_Academy_Company_id` ASC) ,
+  INDEX `fk_Image_Academy1_idx` (`Academy_Academy_id` ASC) ,
+  INDEX `fk_Image_Instructor1_idx` (`Instructor_Instructorr_id` ASC, `Instructor_Academy_Academy_id` ASC) ,
+  UNIQUE INDEX `Instructor_Instructorr_id_UNIQUE` (`Instructor_Instructorr_id` ASC) ,
+  UNIQUE INDEX `Instructor_Academy_Academy_id_UNIQUE` (`Instructor_Academy_Academy_id` ASC) ,
+  CONSTRAINT `fk_Image_Course1`
+    FOREIGN KEY (`Course_Academy_Company_id`)
+    REFERENCES `offcourcesdb`.`Course` (`Academy_Company_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Image_Academy1`
+    FOREIGN KEY (`Academy_Academy_id`)
+    REFERENCES `offcourcesdb`.`Academy` (`Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Image_Instructor1`
+    FOREIGN KEY (`Instructor_Instructorr_id` , `Instructor_Academy_Academy_id`)
+    REFERENCES `offcourcesdb`.`Instructor` (`Instructorr_id` , `Academy_Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`academy_has_instructor` (
+  `Academy_Academy_id` INT(11) NOT NULL,
+  `Instructor_Instructorr_id` INT(11) NOT NULL,
+  `Instructor_Academy_Academy_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Academy_Academy_id`, `Instructor_Instructorr_id`, `Instructor_Academy_Academy_id`),
+  INDEX `fk_academy_has_instructor_Academy1_idx` (`Academy_Academy_id` ASC) ,
+  INDEX `fk_academy_has_instructor_Instructor1_idx` (`Instructor_Instructorr_id` ASC, `Instructor_Academy_Academy_id` ASC) ,
+  CONSTRAINT `fk_academy_has_instructor_Academy1`
+    FOREIGN KEY (`Academy_Academy_id`)
+    REFERENCES `offcourcesdb`.`Academy` (`Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_academy_has_instructor_Instructor1`
+    FOREIGN KEY (`Instructor_Instructorr_id` , `Instructor_Academy_Academy_id`)
+    REFERENCES `offcourcesdb`.`Instructor` (`Instructorr_id` , `Academy_Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `offcourcesdb`.`course_has_instructor` (
+  `Course_Course_id` INT(11) NOT NULL,
+  `Instructor_Instructorr_id` INT(11) NOT NULL,
+  `Instructor_Academy_Academy_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Course_Course_id`, `Instructor_Instructorr_id`, `Instructor_Academy_Academy_id`),
+  INDEX `fk_course_has_instructor_Course1_idx` (`Course_Course_id` ASC) ,
+  INDEX `fk_course_has_instructor_Instructor1_idx` (`Instructor_Instructorr_id` ASC, `Instructor_Academy_Academy_id` ASC) ,
+  CONSTRAINT `fk_course_has_instructor_Course1`
+    FOREIGN KEY (`Course_Course_id`)
+    REFERENCES `offcourcesdb`.`Course` (`Course_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_course_has_instructor_Instructor1`
+    FOREIGN KEY (`Instructor_Instructorr_id` , `Instructor_Academy_Academy_id`)
+    REFERENCES `offcourcesdb`.`Instructor` (`Instructorr_id` , `Academy_Academy_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
