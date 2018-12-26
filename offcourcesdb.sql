@@ -95,13 +95,12 @@ CREATE TABLE `image` (
 
 CREATE TABLE `instructor` (
   `id` int(11) NOT NULL,
-  `mail` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
-  `instructor_password` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
   `date_of_birth` date DEFAULT NULL,
   `phone_no` varchar(45) DEFAULT NULL,
-  `courses` varchar(100) DEFAULT NULL,
   `previous_experience` varchar(200) DEFAULT NULL,
   `sex` varchar(1) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
