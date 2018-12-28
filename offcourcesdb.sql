@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2018 at 12:35 AM
+-- Generation Time: Dec 28, 2018 at 01:26 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.39
 
@@ -35,7 +35,6 @@ CREATE TABLE `academy` (
   `name` varchar(45) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone_no` varchar(20) DEFAULT NULL,
-  `date_of_incorporation` date DEFAULT NULL,
   `profile_image_url` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -59,8 +58,11 @@ CREATE TABLE `academy_has_instructors` (
 CREATE TABLE `course` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `instructors` varchar(45) DEFAULT NULL,
-  `academy_id` int(11) NOT NULL
+  `describtion` varchar(300) NOT NULL,
+  `academy_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `finish_date` date NOT NULL,
+  `price` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -95,18 +97,23 @@ CREATE TABLE `image` (
 
 CREATE TABLE `instructor` (
   `id` int(11) NOT NULL,
-  `mail` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
-  `instructor_password` varchar(45) NOT NULL,
-  `date_of_birth` date DEFAULT NULL,
+  `password` varchar(45) NOT NULL,
   `phone_no` varchar(45) DEFAULT NULL,
-  `courses` varchar(100) DEFAULT NULL,
   `previous_experience` varchar(200) DEFAULT NULL,
-  `sex` varchar(1) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
   `profile_image_url` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `instructor`
+--
+
+INSERT INTO `instructor` (`id`, `email`, `first_name`, `last_name`, `password`, `phone_no`, `previous_experience`, `profile_image_url`) VALUES
+(40, 'usamaeltmsah@yahoo.com', 'Usama', 'Fouad', '4f9f3aebeb41d37af9220ab9a4053247', NULL, NULL, NULL),
+(43, 'usamaeltmsa@yahoo.com', 'Usama', 'Fouad', 'a25094795b76d7d407404c52983f1694', NULL, NULL, NULL),
+(45, 'usamaeltmsh@yahoo.com', 'usama', 'fouad', 'a25094795b76d7d407404c52983f1694', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -153,7 +160,7 @@ ALTER TABLE `image`
 --
 ALTER TABLE `instructor`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `mail` (`mail`);
+  ADD UNIQUE KEY `mail` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -181,7 +188,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT for table `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables
