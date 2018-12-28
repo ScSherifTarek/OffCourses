@@ -1,11 +1,12 @@
 <?php
 
-include 'connection.php';
+include $path . 'connection.php';
+include $path . 'partials/validator.php';
 
 class Instructors {
 
     private $tableName = 'instructor';
-    private $imagesDir = 'images/instructors/';
+    private $imagesDir = '../images/instructors/';
     
     public static function login($email, $password) {
         $password = md5($password);
@@ -44,6 +45,17 @@ class Instructors {
         /*
          * Hashing String
          */
+        // echo "YES!";
+        // validator::isValidName($first_name);
+        // echo validator::isValidEmail($email);
+        // echo validator::isValidPassword($password, $confirmPassword);
+        // echo validator::isValidName($first_name);
+        // echo validator::isValidName($last_name);
+        if(!(validator::isValidEmail($email)) || !(validator::isValidPassword($password, $confirmPassword)) || !(validator::isValidName($first_name)) || !(validator::isValidName($last_name)))
+        {
+            echo "Nooooooooooo!";
+            return false;
+        }
         $password = md5($password);
 
         /*
@@ -72,7 +84,7 @@ class Instructors {
         return $data;
     }
     
-    public static function updateProfile($id, $first_name, $last_name, $password = null, $previous_experience = null, $phone_no = null,  $image = null)
+    public static function updateProfile($id, $first_name, $last_name, $password = null, $previous_experience = null, $phone_no = null,  $address = null, $image = null)
     {
         /*
          * Hashing String
@@ -88,6 +100,10 @@ class Instructors {
         $phone_noUpdate = '';
         if($phone_no != null)
             $phone_noUpdate = ', phone_no = "'.$phone_no.'"';
+
+        $addressUpdate = '';
+        if($address != null)
+            $addressUpdate = ', address = "'.$address.'"';
 
 
         /*
@@ -143,7 +159,7 @@ class Instructors {
         /*
          * Update Table
          */
-        $query = 'UPDATE ' . $_this->tableName . ' SET name="' . $name . '", ' . $passwordUpdate . ' ' . $previous_experienceUpdate . ' ' . $phone_noUpdate . '' . $imageUpdate . ' WHERE id=' . $id;
+        $query = 'UPDATE ' . $_this->tableName . ' SET name="' . $name . '", ' . $passwordUpdate . ' ' . $previous_experienceUpdate . ' ' . $phone_noUpdate . '' . $addressUpdate . '' . $imageUpdate . ' WHERE id=' . $id;
         if ($con->query($query) === true) {
             $data = ['status' => true, 'message' => 'Record updated successfully'];
         } else {

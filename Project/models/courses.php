@@ -1,15 +1,13 @@
 <?php
 
-include 'connection.php';
+include '../connection.php';
 
 class Courses {
 
 
     private $tableName = 'course';
-    private $imagesDir = 'images/courses/';
+    private $imagesDir = '../images/courses/';
 
-
-    public static function create()
 
     public static function getById($id) {
         $_this = new self;
@@ -28,21 +26,8 @@ class Courses {
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return $result;
     }
- 
-    public static function delete($id) {
-        $_this = new self;
-        global $con;
-        $query = 'DELETE FROM ' . $_this->tableName . ' WHERE id=' . "'$id'" . ' LIMIT 1';
-        if ($con->query($query) === true) {
-            $data = ['status' => true, 'message' => 'Delete successfully'];
-        } else {
-            $data = ['status' => false, 'message' => "Error: " . $query . "<br>" . $con->error];
-        }
-        return $data;
-    }
 
     
-
     // public static function create($name, $cost) {
         
     //     /*
@@ -92,5 +77,17 @@ class Courses {
 
     //     return $data;
     // }
+
+    public function delete($id) {
+        $_this = new self;
+        global $con;
+        $query = 'DELETE FROM ' . $_this->tableName . ' WHERE id=' . "'$id'" . ' LIMIT 1';
+        if ($con->query($query) === true) {
+            $data = ['status' => true, 'message' => 'Delete successfully'];
+        } else {
+            $data = ['status' => false, 'message' => "Error: " . $query . "<br>" . $con->error];
+        }
+        return $data;
+    }
 
 }

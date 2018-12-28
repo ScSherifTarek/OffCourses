@@ -2,7 +2,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = '';
-$database = 'off_courses';
+$database = 'offcourcesdb';
 
 $con = mysqli_connect($host, $username, $password, $database);
 

@@ -5,7 +5,7 @@ include 'partials/header.php';
 
 
 session_destroy();
-header("Location: login.php");
+header("Location: Login");
 exit();
 ?>
 

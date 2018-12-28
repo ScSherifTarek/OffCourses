@@ -2,6 +2,6 @@
 
 if (!isset($_SESSION['user'])) {
     session_destroy();
-    header("Location: login.php");
+    header("Location:".$moreInPath."Login");
     exit();
 }
