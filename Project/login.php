@@ -14,6 +14,7 @@ if(isset($_SESSION['user']))
 
 if (isset($_POST['instructorSignIn'])) {
     $result = instructors::login($_POST['inMail'], $_POST['inPass']);
+    
     if ($result['status'] == true) {
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);
@@ -46,7 +47,7 @@ if (isset($_POST['instructorSignUp'])) {
     }
 }
 if (isset($_POST['academySignUp'])) {
-    $result = Academies::create($_POST['name'], $_POST['email'], $_POST['pass'], $_POST['address'] );
+    $result = Academies::create($_POST['name'], $_POST['email'], $_POST['pass'], $_POST['pass'], $_POST['address'] );
     if ($result['status'] == true) {
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);

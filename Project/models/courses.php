@@ -1,16 +1,9 @@
 <?php
-
 include 'connection.php';
-
 class Courses {
-
-
     private $tableName = 'course';
     private $imagesDir = 'images/courses/';
-
-
     public static function create()
-
     public static function getById($id) {
         $_this = new self;
         global $con;
@@ -19,7 +12,6 @@ class Courses {
         $result = mysqli_fetch_array($result, MYSQLI_ASSOC);
         return $result;
     }
-
     public static function getAllData() {
         $_this = new self;
         global $con;
@@ -40,21 +32,17 @@ class Courses {
         }
         return $data;
     }
-
     
-
     // public static function create($name, $cost) {
         
     //     /*
     //      * Because the function static
     //      */
     //     $_this = new self;
-
     //     /*
     //      * Read Connection
     //      */
     //     global $con;
-
     //     /*
     //      * Insert To Table
     //      */
@@ -64,22 +52,18 @@ class Courses {
     //     } else {
     //         $data = ['status' => false, 'message' => "Error: " . $query . "<br>" . $con->error];
     //     }
-
     //     return $data;
     // }
-
     // /*public static function update($id, $name, $cost) {
         
     //     /*
     //      * Because the function static
     //      */
     //     $_this = new self;
-
     //     /*
     //      * Read Connection
     //      */
     //     global $con;
-
     //     /*
     //      * Update Table
     //      */
@@ -89,8 +73,6 @@ class Courses {
     //     } else {
     //         $data = ['status' => false, 'message' => "Error: " . $query . "<br>" . $con->error];
     //     }
-
     //     return $data;
     // }
-
 }

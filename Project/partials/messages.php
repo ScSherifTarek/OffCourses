@@ -1,7 +1,5 @@
 <?php
-
 class messages {
-
     public static function success($message) {
         $html = '<div style="padding:0 20px"> 
                     <div class="alert alert-success alert-dismissible" role="alert">
@@ -13,7 +11,6 @@ class messages {
                 </div>';
         return $html;
     }
-
     public static function error($message) {
         $html = '<div style="padding:0 20px">
                     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -25,6 +22,5 @@ class messages {
                 </div>';
         return $html;
     }
-
 }
 ?>

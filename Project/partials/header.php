@@ -1,15 +1,12 @@
 
 <?php
 session_start();
-
 $pageTitle = "OffCourses";
 if(isset($title))
     $pageTitle = $title;
-
 $path = "";
 if(isset($moreInPath))
     $path = $moreInPath;
-
 ?>
 <!doctype html>
 <html>

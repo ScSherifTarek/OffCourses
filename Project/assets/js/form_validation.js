@@ -4,39 +4,40 @@ function validateSignUpInstructorForm() {
       var email = document.forms["instructorSignUpForm"]["email"].value;
       var password = document.forms["instructorSignUpForm"]["pass"].value;
       var confirm_password = document.forms["instructorSignUpForm"]["cfPass"].value;
-      //var check_box = document.forms["instructorSignUpForm"]["checkbox"].checked;
-
-      if(isValidName(fName) && isValidName(lName) && isValidEmail(email) && checkPassword(password, confirm_password) && check_box == true)
+      if(isValidName(fName) && isValidName(lName) && isValidEmail(email) && checkPassword(password, confirm_password))
       {
+        //Now check the email in db!
         alert("Congratulation U are now part of our site :\"D");
+        return true;
       }
       else
       {
         if(!isValidName(fName))//First Name label is empty!
         {
-          document.getElementById("demo").style.color="red";
+          alert("fName");
+          // document.getElementById("demo").style.color="red";
         }
         if (!isValidName(lName)) { //last Name label is empty!
-          document.getElementById("demo").style.color="red";
+          alert("lName");
+          // document.getElementById("demo").style.color="red";
         }
         if (!isValidEmail(email)) { //email label is empty!
-          document.getElementById("demo").style.color="red";
-          // return false;
+          alert("email");
+          // document.getElementById("demo").style.color="red";
         }
         if (!checkPassword(password, confirm_password))
         {
-              document.getElementById("demo").style.color="red";
+          alert("pass");
+            // document.getElementById("demo").style.color="red";
         }
-        if (check_box == false) { //is not checked!
-          alert("Make sure to agree on terms and conditions!");
-          // return false;
-        }
+        return false;
       }
 }
 function validateSignInInsructorForm()
 {
   var email = document.forms["instructorSignInForm"]["inMail"].value;
   var password = document.forms["instructorSignInForm"]["inPass"].value;
+  alert("LOL");
   if(isValidEmail(email) && isValidPassword(password))
   {
     alert("Now we can check our database :D");
@@ -54,10 +55,11 @@ function validateSignUpAcademyForm() {
   var Address = document.forms["academySignUpForm"]["address"].value;
   var password = document.forms["academySignUpForm"]["pass"].value;
   var confirm_password = document.forms["academySignUpForm"]["cfPass"].value;
-  //var check_box = document.forms["academySignUpForm"]["checkbox"].checked;
-  if(isValidName(Name) && isValidEmail(email) && checkPassword(password, confirm_password) && check_box == true)
+  if(isValidName(Name) && isValidEmail(email) && checkPassword(password, confirm_password))
   {
+    //Now check the email in db!
     alert("Congratulation U are now part of our site :\"D");
+    return true;
   }
   else
   {
@@ -74,10 +76,7 @@ function validateSignUpAcademyForm() {
     {
 
     }
-    if (check_box == false) { //is not checked!
-      alert("Make sure to agree on terms and conditions!");
-      // return false;
-    }
+    return false;
   }
 }
 function validateSignInAcademyForm()
@@ -125,13 +124,14 @@ function isValidPassword(pass)
   re1 = /[0-9]/;
   re2 = /[a-z]/;
   re3 = /[A-Z]/;
-  if((pass.length <= 6 && pass.length > 45) && ((!(re1.test(pass))) || (!(re2.test(pass))) || (!(re3.test(pass))))) {
+  if((pass.length < 6 || pass.length > 45) || ((!(re1.test(pass))) || (!(re2.test(pass))) || (!(re3.test(pass))))) {
     alert("Error: Wrong Password!");
     // form.pwd1.focus();
     return false;
   }
   else
   {
+    alert("LOL");
     return true;
   }
 }

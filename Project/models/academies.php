@@ -1,15 +1,16 @@
 <?php
-
 include 'connection.php';
+// include 'partials/validator.php';
 
 class Academies {
-
-
     private $tableName = 'academy';
     private $imagesDir = 'images/academies/';
-
-
     public static function login($email, $password) {
+        if(!(validator::isValidEmail($email)) || !(validator::isValidPassword($password, $confirmPassword=null)))
+        {
+            echo "Can't login!";
+            return false;
+        }
         $password = md5($password);
         $_this = new self;
         global $con;
@@ -20,26 +21,26 @@ class Academies {
             $data = ['status' => true, 'data' => $row];
         else
             $data = ['status' => false, 'data' => []];
-
         return $data;
     }
-
-     public static function create($name, $email, $password, $address) {
+     public static function create($name, $email, $password, $confirmPassword, $address) {
         /*
          * Hashing String
          */
+        if(!(validator::isValidEmail($email)) || !(validator::isValidPassword($password, $confirmPassword)) || !(validator::isValidName($name)) || $address == "")
+        {
+            echo "check that you entered a valid data!";
+            return false;
+        }
         $password = md5($password);
-
         /*
          * Because the function static
          */
         $_this = new self;
-
         /*
          * Read Connection
          */
         global $con;
-
         /*
          * Insert To Table
          */
@@ -52,10 +53,8 @@ class Academies {
         } else {
             $data = ['status' => false, 'data' => [] ];
         }
-
         return $data;
     }
-
     public static function getById($id) {
         $_this = new self;
         global $con;
@@ -64,7 +63,6 @@ class Academies {
         $result = mysqli_fetch_array($result, MYSQLI_ASSOC);
         return $result;
     }
-
     public static function getAllData() {
         $_this = new self;
         global $con;
@@ -73,8 +71,6 @@ class Academies {
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return $result;
     }
-
-
     public static function updateProfile($id, $name, $password = null, $phone_no = null, $address = null, $image = null)
     {
         /*
@@ -83,34 +79,26 @@ class Academies {
         $addressUpdate = '';
         if($address != null)
             $addressUpdate = ', address="'.$address.'"';
-
         $passwordUpdate = '';
         if ($password != null)
             $passwordUpdate = ', password="' . md5($password) . '"';
-
         $previous_experienceUpdate = '';
         if($previous_experience != null)
             $previous_experienceUpdate = ', previous_experience = "'.$previous_experience.'"';
-
         $phone_noUpdate = '';
         if($phone_no != null)
             $phone_noUpdate = ', phone_no = "'.$phone_no.'"';
-
         $addressUpdate = '';
         if($address != null)
             $addressUpdate = ', address = "'.$address.'"';
-
-
         /*
          * Because the function static
          */
         $_this = new self;
-
         /*
          * Read Connection
          */
         global $con;
-
         /*
          * Upload Image
          */
@@ -136,10 +124,8 @@ class Academies {
             $error = $image['error'];
             $allow = ["jpg", "jpeg", "gif", "png"];
             $ex = explode('.', strtolower($imageName));
-
             if (!in_array(end($ex), $allow))
                 return ['status' => false, 'message' => 'Wrong Image'];
-
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             $result = '';
             for ($i = 1; $i <= 20; $i++) {
@@ -150,7 +136,6 @@ class Academies {
             $image = $newname;
             $imageUpdate = ', profile_image_url="' . $image . '"';
         }
-
         /*
          * Update Table
          */
@@ -160,7 +145,6 @@ class Academies {
         } else {
             $data = ['status' => false, 'message' => "Error: " . $query . "<br>" . $con->error];
         }
-
         return $data;
     }
 }
