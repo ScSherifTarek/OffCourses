@@ -52,7 +52,7 @@ img{
     /* position: relative; */
     /* font-style: bold;  */
     color: #909bad;
-    width: calc(50% - 2px);
+    width: calc(50% - 3px);
     height: 50px;
     text-align: center;
     /*line-height: 50px;*/
