@@ -2,12 +2,9 @@
 $title = "Login";
 $moreInHeader = '<link rel="stylesheet" href="assets/css/signUp.css">';
 include 'partials/header.php'; 
-include 'partials/messages.php';
-include 'models/instructors.php';
-include 'models/academies.php';
 
 
-$loginPath = $path."index.php";
+$loginPath = "index.php";
 
 if(isset($_SESSION['user']))
         header("Location: ".$loginPath);
@@ -15,6 +12,7 @@ if(isset($_SESSION['user']))
 if (isset($_POST['instructorSignIn'])) {
     $result = instructors::login($_POST['inMail'], $_POST['inPass']);
     if ($result['status'] == true) {
+        $_SESSION['userType'] = $instructorType;
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);
         exit();
@@ -23,9 +21,11 @@ if (isset($_POST['instructorSignIn'])) {
         $error = 'Wrong email or password.';
     }
 }
+
 if (isset($_POST['academySignIn'])) {
     $result = Academies::login($_POST['acMail'], $_POST['acPass']);
     if ($result['status'] == true) {
+        $_SESSION['userType'] = $academyType;
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);
         exit();
@@ -37,6 +37,7 @@ if (isset($_POST['academySignIn'])) {
 if (isset($_POST['instructorSignUp'])) {
     $result = instructors::create($_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['pass'], $_POST['cfPass'] );
     if ($result['status'] == true) {
+        $_SESSION['userType'] = $instructorType;
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);
         exit();
@@ -48,6 +49,7 @@ if (isset($_POST['instructorSignUp'])) {
 if (isset($_POST['academySignUp'])) {
     $result = Academies::create($_POST['name'], $_POST['email'], $_POST['pass'], $_POST['address'] );
     if ($result['status'] == true) {
+        $_SESSION['userType'] = $academyType;
         $_SESSION['user'] = $result['data'];
         header("Location: ".$loginPath);
         exit();
@@ -139,6 +141,5 @@ if (isset($_POST['academySignUp'])) {
 <?php
 $moreInFooter = '
 <script type="text/javascript" src="assets/js/register.js"></script>
-<script type="text/javascript" src="assets/js/form_validation.js"></script>
 ';
 include 'partials/footer.php'; ?>
